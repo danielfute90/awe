@@ -15,6 +15,13 @@
       "when": 1794761036717,
       "tag": "0001_tiresome_rattler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1795561052732,
+      "tag": "0002_fantastic_professor_monster",
+      "breakpoints": true
     }
   ]
 }

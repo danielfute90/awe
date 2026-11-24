@@ -5,7 +5,7 @@
 // Les deux doivent TOUJOURS avoir les mêmes tables et les mêmes colonnes.
 // Après une modification : pnpm db:generate (crée les migrations des deux côtés).
 // =====================================================================
-import { index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { blob, index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // Petits raccourcis pour garder le schéma lisible.
 const maintenant = () => new Date();
@@ -81,7 +81,9 @@ export const documents = sqliteTable("documents", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   titre: text("titre").notNull(),
-  chemin: text("chemin").notNull(),
+  chemin: text("chemin").notNull(), // nom du fichier (anciens PDF : chemin sur le disque)
+  // Le PDF lui-même, rangé DANS la base : il survit aux redéploiements (le disque de Render est effacé).
+  contenu: blob("contenu", { mode: "buffer" }),
   createdAt: dateHeure("created_at").notNull().$defaultFn(maintenant),
 });
 

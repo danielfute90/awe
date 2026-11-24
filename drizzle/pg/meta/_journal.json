@@ -15,6 +15,13 @@
       "when": 1794761039629,
       "tag": "0001_heavy_annihilus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795561055597,
+      "tag": "0002_loose_wendell_rand",
+      "breakpoints": true
     }
   ]
 }

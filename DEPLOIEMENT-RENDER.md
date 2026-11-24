@@ -83,5 +83,5 @@ Render offre 750 h par mois : assez pour qu'Awé tourne tout le mois.
 
 - **Ne lance plus `pnpm dev` avec le bot** sur ton PC : les deux Awé se disputeraient les messages Telegram. Pour développer en local, vide `TELEGRAM_BOT_TOKEN` dans ton `.env` (ou mets `DEMO=true`).
 - **Base neuve en ligne** : tes listes et ton historique locaux restent sur ton PC. En ligne, tu repars de zéro (ton compte admin et tes ID Telegram sont recréés automatiquement). Reconnecte Gmail une fois.
-- **PDF** : le disque de Render gratuit est effacé à chaque redéploiement. Les PDF déjà créés disparaissent alors ; demande simplement à Awé de les refaire.
+- **PDF** : ils sont rangés dans la base Neon, donc ils survivent aux redéploiements (le disque de Render, lui, est effacé à chaque fois).
 - **Lien web** : dans Telegram, `/web` te donne le lien de connexion vers ton adresse Render.

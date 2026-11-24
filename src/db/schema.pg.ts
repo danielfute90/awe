@@ -6,6 +6,7 @@
 // =====================================================================
 import {
   boolean,
+  customType,
   doublePrecision,
   index,
   integer,
@@ -17,6 +18,8 @@ import {
 
 const maintenant = () => new Date();
 const dateHeure = (nom: string) => timestamp(nom, { withTimezone: true, mode: "date" });
+// Octets bruts (le type "bytea" de Postgres) : pour ranger un fichier PDF dans la base.
+const octets = customType<{ data: Buffer; driverData: Buffer }>({ dataType: () => "bytea" });
 
 export const ROLES = ["admin", "membre", "invite"] as const;
 
@@ -79,7 +82,9 @@ export const documents = pgTable("documents", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   titre: text("titre").notNull(),
-  chemin: text("chemin").notNull(),
+  chemin: text("chemin").notNull(), // nom du fichier (anciens PDF : chemin sur le disque)
+  // Le PDF lui-même, rangé DANS la base : il survit aux redéploiements (le disque de Render est effacé).
+  contenu: octets("contenu"),
   createdAt: dateHeure("created_at").notNull().$defaultFn(maintenant),
 });
 

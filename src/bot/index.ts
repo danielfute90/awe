@@ -5,6 +5,7 @@
 import { Bot, InlineKeyboard, InputFile } from "grammy";
 import { log } from "../logger.js";
 import { ecouterTout, type DemandeAffichee } from "../services/events.js";
+import { contenuDocument, documentDe, nomTelechargement } from "../services/documents.js";
 import { definirNomDuBot } from "../services/invitations.js";
 import { destinatairesTelegram, trouverParId } from "../services/users.js";
 import { enregistrerCommandes } from "./commandes.js";
@@ -78,9 +79,14 @@ export function creerBot(token: string) {
         } else if (evenement.type === "notification") {
           await bot.api.sendMessage(telegramId, evenement.texte);
         } else if (evenement.type === "document") {
-          await bot.api.sendDocument(telegramId, new InputFile(evenement.document.chemin), {
-            caption: evenement.document.titre,
-          });
+          // Le PDF est dans la base : on le relit, puis on l'envoie comme fichier.
+          const doc = await documentDe(userId, evenement.document.id);
+          const contenu = doc && (await contenuDocument(doc));
+          if (contenu) {
+            await bot.api.sendDocument(telegramId, new InputFile(contenu, nomTelechargement(evenement.document.titre)), {
+              caption: evenement.document.titre,
+            });
+          }
         } else if (evenement.type === "approbation") {
           const { texte, boutons } = messageDemande(evenement.approbation);
           const envoye = await bot.api.sendMessage(telegramId, texte, { reply_markup: boutons });

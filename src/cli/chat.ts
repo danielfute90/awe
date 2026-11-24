@@ -28,7 +28,7 @@ const arreterRappels = demarrerRappels();
 ecouter(moi.id, (evenement) => {
   if (evenement.type === "rappel") console.log(`\n[RAPPEL] ${evenement.rappel.texte}\nToi > `);
   if (evenement.type === "notification") console.log(`\n[INFO] ${evenement.texte}\nToi > `);
-  if (evenement.type === "document") console.log(`\n[PDF] ${evenement.document.titre} : ${evenement.document.chemin}\n`);
+  if (evenement.type === "document") console.log(`\n[PDF] ${evenement.document.titre} (n°${evenement.document.id}, rangé dans la base)\n`);
   if (evenement.type === "approbation") {
     const d = evenement.approbation;
     console.log(`\n----- VALIDATION DEMANDÉE (n°${d.id}) -----`);

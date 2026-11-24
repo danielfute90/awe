@@ -4,14 +4,13 @@
 //   - utilisent req.utilisateur.id (jamais un id envoyé par le navigateur)
 //   - vérifient les données reçues (zod)
 // =====================================================================
-import { createReadStream, existsSync } from "node:fs";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { z } from "zod";
 import { handleUserMessage } from "../agent/awe.js";
 import { budgetDepasse } from "../security/limits.js";
 import { decider, demandesEnAttente, historiqueDemandes } from "../services/approbations.js";
 import { ajouterCourses, cocherCourses, listerCourses, retirerCourses } from "../services/courses.js";
-import { documentDe, listerDocuments } from "../services/documents.js";
+import { contenuDocument, documentDe, listerDocuments, nomTelechargement } from "../services/documents.js";
 import { effacerDonnees } from "../services/effacement.js";
 import { ecouter } from "../services/events.js";
 import { compteGmail, gmailConfigure, messageDeconnexion } from "../services/gmail.js";
@@ -119,21 +118,20 @@ export async function routesWeb(app: FastifyInstance) {
   });
 
   // --- Documents -------------------------------------------------------------
-  app.get("/api/documents", async (req) =>
-    (await listerDocuments(req.utilisateur.id)).map(({ id, titre, createdAt }) => ({ id, titre, createdAt })),
-  );
+  app.get("/api/documents", async (req) => listerDocuments(req.utilisateur.id));
 
   app.get<{ Querystring: { telecharger?: string } }>("/api/documents/:id/file", async (req, reply) => {
     const p = verifier(idParam, req.params, reply);
     if (!p) return;
     const doc = await documentDe(req.utilisateur.id, p.id);
-    if (!doc || !existsSync(doc.chemin)) return reply.code(404).send({ erreur: "document introuvable" });
-    const nom = `${doc.titre.replace(/[^\p{L}\p{N} _-]/gu, "").trim() || "document"}.pdf`;
+    const contenu = doc && (await contenuDocument(doc));
+    if (!doc || !contenu) return reply.code(404).send({ erreur: "document introuvable" });
+    const nom = nomTelechargement(doc.titre);
     const mode = req.query.telecharger ? "attachment" : "inline"; // inline = aperçu dans le navigateur
     return reply
       .type("application/pdf")
       .header("content-disposition", `${mode}; filename*=UTF-8''${encodeURIComponent(nom)}`)
-      .send(createReadStream(doc.chemin));
+      .send(contenu);
   });
 
   // --- Validations -------------------------------------------------------------

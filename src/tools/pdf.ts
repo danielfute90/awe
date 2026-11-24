@@ -14,6 +14,6 @@ export const creerPdfOutil = definirOutil({
   }),
   executer: async ({ titre, contenu }, ctx) => {
     const doc = await creerPdf(ctx.utilisateur.id, titre.trim(), contenu, ctx.utilisateur.fuseau);
-    return { id: doc.id, titre: doc.titre, fichier: doc.chemin, envoye: "le PDF est envoyé à l'utilisateur" };
+    return { id: doc.id, titre: doc.titre, fichier: doc.fichier, envoye: "le PDF est envoyé à l'utilisateur" };
   },
 });

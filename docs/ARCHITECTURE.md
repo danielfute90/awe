@@ -171,7 +171,7 @@ Les tables d'Awé ([src/db/schema.pg.ts](../src/db/schema.pg.ts)) :
 | `messages` | un message de la conversation |
 | `shopping_items` | un article de la liste de courses |
 | `reminders` | un rappel |
-| `documents` | un PDF créé |
+| `documents` | un PDF créé : son titre **et le fichier lui-même** (colonne `contenu`) |
 | `gmail_accounts` | une connexion Gmail (jetons **chiffrés**) |
 | `approvals` | une demande de validation (email à envoyer) |
 | `agent_logs` | une étape de l'agent (pour les coûts et les erreurs) |

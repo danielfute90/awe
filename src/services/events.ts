@@ -18,7 +18,7 @@ export type EvenementAwe =
   // Une info à pousser à l'utilisateur (Gmail connecté, accès expiré, alerte...).
   | { type: "notification"; texte: string }
   // Un PDF vient d'être créé.
-  | { type: "document"; document: { id: number; titre: string; chemin: string } }
+  | { type: "document"; document: { id: number; titre: string; fichier: string } }
   // Une action attend la validation de l'utilisateur (ex. envoi d'email).
   | { type: "approbation"; approbation: DemandeAffichee }
   // Une demande vient d'être validée, annulée ou a expiré.

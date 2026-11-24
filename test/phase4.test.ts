@@ -1,7 +1,7 @@
 // Tests de la phase 4 : validations (envoi d'email), PDF, règles de la voix.
 // Gmail est remplacé par une imitation : aucun vrai email n'est envoyé.
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { after, before, beforeEach, test } from "node:test";
@@ -24,6 +24,7 @@ const { ajouterCourses, cocherCourses } = await import("../src/services/courses.
 const { ecouter } = await import("../src/services/events.js");
 const { outilsPour } = await import("../src/tools/index.js");
 const { repondreEnVocal } = await import("../src/services/voix.js");
+const { contenuDocument, documentDe } = await import("../src/services/documents.js");
 const { eq } = await import("drizzle-orm");
 
 // --- Faux Gmail : note ce qui est envoyé ; "dejaconnu@exemple.com" a déjà reçu un email.
@@ -147,21 +148,26 @@ test("envoyer_liste_par_email : seulement les articles non cochés", async () =>
   assert.ok(lait);
 });
 
-test("creer_pdf crée le fichier dans storage/<userId>/ et prévient", async () => {
-  let chemin = "";
+test("creer_pdf range le PDF dans la base (pas sur le disque) et prévient", async () => {
+  let recu: { id: number; fichier: string } | undefined;
   const arreter = ecouter(adminId, (e) => {
-    if (e.type === "document") chemin = e.document.chemin;
+    if (e.type === "document") recu = e.document;
   });
+  const avant = readdirSync(process.env.STORAGE_DIR!).length;
   const r = await outil("creer_pdf").executer({ titre: "Test Awé", contenu: "# Courses\n- lait\n- œufs\nFin." }, await ctx());
   arreter();
-  try {
-    assert.equal(r.erreur, false);
-    assert.match(chemin.replace(/\\/g, "/"), new RegExp(`/${adminId}/\\d+-test-awe\\.pdf$`));
-    assert.ok(chemin.startsWith(process.env.STORAGE_DIR!));
-    assert.ok(existsSync(chemin));
-  } finally {
-    if (chemin) rmSync(chemin, { force: true });
-  }
+
+  assert.equal(r.erreur, false);
+  assert.ok(recu, "l'événement document doit être émis");
+  assert.match(recu.fichier, /^\d+-test-awe\.pdf$/);
+  // Le PDF est dans la base, et c'est un vrai PDF (il commence toujours par "%PDF").
+  const doc = await documentDe(adminId, recu.id);
+  const contenu = doc && (await contenuDocument(doc));
+  assert.ok(contenu && contenu.subarray(0, 4).toString() === "%PDF");
+  // Rien n'a été écrit sur le disque.
+  assert.equal(readdirSync(process.env.STORAGE_DIR!).length, avant);
+  // Un autre utilisateur ne peut pas le récupérer.
+  assert.equal(await documentDe(adminId + 999, recu.id), null);
 });
 
 test("voix économique : pas de vocal si réponse longue ou voix coupée", () => {
