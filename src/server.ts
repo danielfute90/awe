@@ -42,9 +42,11 @@ async function demarrer() {
   //    - webhook : Telegram appelle Awé (nécessite une adresse HTTPS publique)
   if (bot) {
     if (config.BOT_MODE === "webhook") {
+      // On GARDE les messages en attente : sur Render gratuit, c'est souvent
+      // un message Telegram qui réveille Awé, il ne faut pas le jeter.
       await bot.api.setWebhook(`${config.PUBLIC_URL}/telegram/webhook`, {
         secret_token: config.TELEGRAM_WEBHOOK_SECRET,
-        drop_pending_updates: true,
+        drop_pending_updates: false,
       });
       log.info(`Bot Telegram @${bot.botInfo.username} démarré (webhook)`);
     } else {

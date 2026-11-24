@@ -31,7 +31,15 @@ export function creerApp({ bot }: { bot?: Bot<AweContext> | null } = {}) {
 
   // Mode webhook : Telegram envoie les messages ici. Le jeton secret prouve que c'est bien Telegram.
   if (bot && config.BOT_MODE === "webhook") {
-    app.post("/telegram/webhook", webhookCallback(bot, "fastify", { secretToken: config.TELEGRAM_WEBHOOK_SECRET }));
+    app.post(
+      "/telegram/webhook",
+      webhookCallback(bot, "fastify", {
+        secretToken: config.TELEGRAM_WEBHOOK_SECRET,
+        // Si Claude réfléchit plus de 10 s, on répond « bien reçu » à Telegram et Awé
+        // continue son travail. Sinon Telegram croirait à un échec et renverrait le message.
+        onTimeout: "return",
+      }),
+    );
   }
 
   app.register(cookie);
