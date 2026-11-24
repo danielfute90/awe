@@ -5,8 +5,8 @@
 # Awé
 
 **Un assistant personnel IA, sur Telegram et le web.**
-Il gère ta liste de courses et tes rappels, lit et résume tes emails, prépare des réponses
-qu'il n'envoie **qu'après ton accord**, crée des PDF et comprend les notes vocales.
+Il gère votre liste de courses et vos rappels, lit et résume vos emails, prépare des réponses
+qu'il n'envoie **qu'après votre accord**, crée des PDF et comprend les notes vocales.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
@@ -27,13 +27,13 @@ qu'il n'envoie **qu'après ton accord**, crée des PDF et comprend les notes voc
 
 | | |
 |---|---|
-| 💬 **Conversation** | Sur Telegram (texte et vocal) et sur le web, avec **la même mémoire**, synchronisée en direct |
-| 🛒 **Courses** | Ajouter, retirer, cocher : « Ajoute 6 œufs et du beurre à ma liste » |
-| ⏰ **Rappels** | « Rappelle-moi d'appeler maman demain à 18h », en tenant compte du fuseau horaire |
-| 📧 **Gmail** | Chercher, lire, résumer ; envoyer **seulement après validation** ; jamais supprimer |
-| 📄 **PDF** | Création à la demande, envoi sur Telegram, aperçu et téléchargement sur le web ; conservés dans la base |
-| 🎙️ **Voix** | Transcription des notes vocales et réponse vocale (ElevenLabs) |
-| 🛠️ **Admin** | Invitations, utilisateurs, coûts par jour, journal détaillé de chaque tâche |
+| **Conversation** | Sur Telegram (texte et vocal) et sur le web, avec **la même mémoire**, synchronisée en direct |
+| **Courses** | Ajouter, retirer, cocher : « Ajoute 6 œufs et du beurre à ma liste » |
+| **Rappels** | « Rappelle-moi d'appeler maman demain à 18h », en tenant compte du fuseau horaire |
+| **Gmail** | Chercher, lire, résumer ; envoyer **seulement après validation** ; jamais supprimer |
+| **PDF** | Création à la demande, envoi sur Telegram, aperçu et téléchargement sur le web ; conservés dans la base |
+| **Voix** | Transcription des notes vocales et réponse vocale (ElevenLabs) |
+| **Admin** | Invitations, utilisateurs, coûts par jour, journal détaillé de chaque tâche |
 
 ## En images
 
@@ -58,7 +58,7 @@ qu'il n'envoie **qu'après ton accord**, crée des PDF et comprend les notes voc
 
 <p align="center">
   <img src="docs/captures/mobile-validations.png" width="260" alt="Validation d'un email sur mobile" /><br/>
-  <b>Rien ne part sans ton accord</b> : le brouillon exact, un compte à rebours, et deux boutons.
+  <b>Rien ne part sans votre accord</b> : le brouillon exact, un compte à rebours, et deux boutons.
 </p>
 
 ## Comment ça marche
@@ -75,7 +75,7 @@ Site web ─┘        │           └──────── outils : course
            base de données (SQLite en local, Postgres en ligne)
 ```
 
-👉 Le détail, chapitre par chapitre, avec des schémas et des exercices :
+Le détail, chapitre par chapitre, avec des schémas et des exercices :
 **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
 
 ## Sécurité : un agent qui ne fait pas n'importe quoi
@@ -121,21 +121,21 @@ pnpm web:build
 cp .env.example .env        # Windows : copy .env.example .env
 ```
 
-Dans `.env`, mets `DEMO=true`, puis lance `pnpm dev` et ouvre **http://localhost:3000**.
+Dans `.env`, mettez `DEMO=true`, puis lancez `pnpm dev` et ouvrez **http://localhost:3000**.
 
 En mode démo, Claude est remplacé par un petit cerveau à règles et Gmail par une fausse boîte
 (avec un email piégé). Mais ce sont **les vrais outils, permissions et validations** du projet
-qui tournent. Essaie :
+qui tournent. Essayez par exemple :
 
 - « Ajoute 6 œufs et du beurre à ma liste »
-- « Résume mes mails » (l'email d'arnaque est repéré)
+- « Résume mes mails » (l'email frauduleux est repéré)
 - « Envoie ma liste à marie@exemple.com », puis **Valider**
 - « Supprime le mail de la banque » (refusé : action interdite)
 - « Fais-moi un PDF de ma liste »
 
 ## Utiliser sa propre version
 
-Remplis `.env` (chaque variable est expliquée dans [.env.example](.env.example)) :
+Remplissez `.env` (chaque variable est expliquée dans [.env.example](.env.example)) :
 
 | Variable | Où l'obtenir |
 |---|---|
@@ -145,7 +145,7 @@ Remplis `.env` (chaque variable est expliquée dans [.env.example](.env.example)
 | `ENCRYPTION_KEY` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 | `ELEVENLABS_API_KEY` | elevenlabs.io (facultatif, pour la voix) |
 
-Puis `pnpm dev`, et envoie `/start` à ton bot.
+Lancez ensuite `pnpm dev` et envoyez `/start` à votre bot.
 
 **Mise en ligne gratuite, sans carte bancaire** : GitHub + Render + Neon, pas à pas dans
 **[DEPLOIEMENT-RENDER.md](DEPLOIEMENT-RENDER.md)**.
@@ -156,7 +156,7 @@ Puis `pnpm dev`, et envoie `/start` à ton bot.
 | Commande | Rôle |
 |---|---|
 | `pnpm dev` | lance Awé (serveur, bot, interface) sur http://localhost:3000 |
-| `pnpm chat` | parle à Awé depuis le terminal |
+| `pnpm chat` | discuter avec Awé depuis le terminal |
 | `pnpm lien-web` | lien de connexion à l'interface web sans Telegram |
 | `pnpm web:build` | recompile l'interface après une modification de `web/` |
 | `pnpm web:dev` | interface avec rechargement instantané (http://localhost:5173) |

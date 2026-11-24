@@ -1,87 +1,89 @@
 # Mettre Awé en ligne gratuitement, sans carte bancaire
 
-Trois services gratuits, sans carte :
+Ce guide utilise quatre services gratuits, qui ne demandent pas de carte bancaire :
 
 | Service | Rôle |
 |---|---|
-| **GitHub** | garde le code ; Render le lit de là |
+| **GitHub** | héberge le code ; Render le récupère à partir de là |
 | **Neon** | la base de données Postgres (permanente) |
-| **Render** | fait tourner Awé (site + bot Telegram), adresse `https://….onrender.com` |
-| **cron-job.org** | réveille Awé toutes les 10 minutes (Render endort les services gratuits inactifs) |
+| **Render** | fait tourner Awé (site et bot Telegram), à une adresse `https://….onrender.com` |
+| **cron-job.org** | interroge Awé toutes les 10 minutes (Render met en veille les services gratuits inactifs) |
 
-Compte environ 30 minutes.
+Durée : environ 30 minutes.
 
 ---
 
-## 1. GitHub : envoyer le code
+## 1. GitHub : publier le code
 
-1. Crée un compte sur https://github.com/signup.
-2. Crée un dépôt vide : https://github.com/new → nom `awe` → **Public** → ne coche rien → *Create repository*.
-3. Ferme et rouvre VS Code (pour qu'il trouve git), puis dans le terminal, dans `C:\Users\HP\awe` (remplace `TON_PSEUDO`) :
+1. Créez un compte sur https://github.com/signup.
+2. Créez un dépôt vide : https://github.com/new, nom `awe`, visibilité **Public**, sans cocher aucune option, puis *Create repository*.
+3. Dans un terminal, depuis le dossier du projet (remplacez `VOTRE_PSEUDO`) :
 
 ```powershell
-git remote add origin https://github.com/TON_PSEUDO/awe.git
+git init -b main
+git add .
+git commit -m "Première version"
+git remote add origin https://github.com/VOTRE_PSEUDO/awe.git
 git push -u origin main
 ```
 
-(Le dépôt et le premier enregistrement du code sont déjà prêts.)
+Lors du premier envoi, une fenêtre GitHub s'ouvre pour vous authentifier. Le fichier `.env`, la base locale et le dossier `storage/` ne sont **pas** envoyés (voir `.gitignore`).
 
-Une fenêtre GitHub s'ouvre pour te connecter la première fois. Ton `.env`, ta base et tes PDF ne sont **pas** envoyés (`.gitignore`).
-
-Pour les mises à jour plus tard : `git add . ; git commit -m "maj" ; git push` → Render redéploie tout seul.
+Pour les mises à jour suivantes : `git add .`, `git commit -m "description"`, `git push`. Render redéploie automatiquement.
 
 ## 2. Neon : la base de données
 
-1. Crée un compte sur https://neon.tech (connexion avec GitHub, c'est le plus simple).
-2. Crée un projet `awe`, région la plus proche (Europe, ex. Frankfurt).
-3. Bouton **Connect** → décoche *Connection pooling* → copie l'adresse qui commence par `postgresql://`.
+1. Créez un compte sur https://neon.tech (la connexion avec GitHub est la plus simple).
+2. Créez un projet `awe`, dans la région la plus proche (par exemple Frankfurt pour l'Europe).
+3. Cliquez sur **Connect**, désactivez *Connection pooling* et copiez l'adresse qui commence par `postgresql://`.
 4. Dans le terminal :
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File deploy\preparer-render.ps1
 ```
 
-Le script te demande l'adresse : colle-la (elle reste invisible), puis Entrée.
-Le fichier `.env.render` est créé (tes clés + les réglages en ligne). Il reste sur ton PC.
+Le script demande l'adresse : collez-la (elle reste invisible), puis appuyez sur Entrée.
+Il crée le fichier `.env.render`, qui reprend vos clés et ajoute les réglages de production. Ce fichier reste sur votre ordinateur et n'est jamais publié.
 
 ## 3. Render : faire tourner Awé
 
-1. Crée un compte sur https://render.com avec **GitHub**.
-2. **New → Web Service** → choisis le dépôt `awe`.
+1. Créez un compte sur https://render.com avec **GitHub**.
+2. **New**, puis **Web Service**, et choisissez le dépôt `awe`.
 3. Réglages :
    - **Language / Runtime** : Docker
    - **Region** : Frankfurt
    - **Instance type** : **Free**
-4. **Environment Variables → Add from .env** : ouvre `.env.render` (`notepad .env.render`), copie tout, colle, valide.
-5. **Advanced → Health Check Path** : `/health`.
-6. **Deploy**. La première construction prend 5 à 10 minutes. C'est prêt quand le journal affiche `Bot Telegram @… démarré (webhook)`.
+4. **Environment Variables**, puis **Add from .env** : ouvrez `.env.render` (`notepad .env.render`), copiez l'intégralité du contenu, collez-le et validez.
+5. **Advanced**, **Health Check Path** : `/health`.
+6. **Deploy**. La première construction prend 5 à 10 minutes. Le service est prêt lorsque le journal (*Logs*) affiche `Bot Telegram @… démarré (webhook)`.
 
-Ton adresse est en haut de la page : `https://awe-xxxx.onrender.com`.
+L'adresse du service apparaît en haut de la page : `https://awe-xxxx.onrender.com`.
+Une fois les variables saisies dans Render, vous pouvez supprimer `.env.render`.
 
 ## 4. Google : autoriser la nouvelle adresse
 
-https://console.cloud.google.com/apis/credentials → ton identifiant OAuth → **URI de redirection autorisés** → ajoute :
+Dans https://console.cloud.google.com/apis/credentials, ouvrez votre identifiant OAuth, puis dans **URI de redirection autorisés**, ajoutez :
 
 ```
 https://awe-xxxx.onrender.com/api/gmail/callback
 ```
 
-(garde aussi celle de localhost). Puis dans Telegram : `/connecter_gmail`.
+Conservez l'adresse `localhost` pour le développement. Envoyez ensuite `/connecter_gmail` au bot Telegram.
 
-## 5. cron-job.org : garder Awé éveillé
+## 5. cron-job.org : éviter la mise en veille
 
-Sans ça, Render endort Awé après 15 minutes sans visite : les rappels ne partiraient plus à l'heure.
+Sans visite pendant 15 minutes, Render met Awé en veille : les rappels ne partiraient plus à l'heure et le premier message mettrait environ une minute à recevoir une réponse.
 
-1. Compte gratuit sur https://cron-job.org.
-2. **Create cronjob** → URL `https://awe-xxxx.onrender.com/health` → *Every 10 minutes* → Create.
+1. Créez un compte gratuit sur https://cron-job.org.
+2. **Create cronjob** : URL `https://awe-xxxx.onrender.com/health`, fréquence *Every 10 minutes*, puis **Create**.
 
-Render offre 750 h par mois : assez pour qu'Awé tourne tout le mois.
+L'offre gratuite de Render inclut 750 heures par mois, ce qui suffit pour un service actif en continu.
 
 ---
 
-## À savoir
+## Points d'attention
 
-- **Ne lance plus `pnpm dev` avec le bot** sur ton PC : les deux Awé se disputeraient les messages Telegram. Pour développer en local, vide `TELEGRAM_BOT_TOKEN` dans ton `.env` (ou mets `DEMO=true`).
-- **Base neuve en ligne** : tes listes et ton historique locaux restent sur ton PC. En ligne, tu repars de zéro (ton compte admin et tes ID Telegram sont recréés automatiquement). Reconnecte Gmail une fois.
-- **PDF** : ils sont rangés dans la base Neon, donc ils survivent aux redéploiements (le disque de Render, lui, est effacé à chaque fois).
-- **Lien web** : dans Telegram, `/web` te donne le lien de connexion vers ton adresse Render.
+- **Une seule instance du bot à la fois.** Ne lancez pas `pnpm dev` avec le même `TELEGRAM_BOT_TOKEN` pendant que le service tourne sur Render : les deux instances se disputeraient les messages. Pour développer en local, videz `TELEGRAM_BOT_TOKEN` dans `.env` ou utilisez `DEMO=true`.
+- **Base de données distincte.** Les données locales (SQLite) ne sont pas transférées : la base en ligne démarre vide. Le compte administrateur et les identifiants Telegram sont recréés automatiquement ; Gmail doit être reconnecté une fois.
+- **PDF.** Ils sont stockés dans la base Neon et survivent donc aux redéploiements (le disque de Render est effacé à chaque fois).
+- **Accès au site.** Dans Telegram, la commande `/web` fournit un lien de connexion vers l'adresse Render.

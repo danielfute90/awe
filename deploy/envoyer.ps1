@@ -1,16 +1,16 @@
 ﻿# =====================================================================
-# Envoie Awé sur ton serveur Oracle et l'installe (ou le met à jour).
-# À lancer depuis le dossier du projet, sur ton PC Windows :
+# Envoie Awé sur votre serveur Oracle et l'installe (ou le met à jour).
+# À lancer depuis le dossier du projet, sous Windows :
 #
 #   powershell -ExecutionPolicy Bypass -File deploy\envoyer.ps1 -Ip 132.145.10.20 -Cle C:\Users\HP\Downloads\ssh-key.key
 #
-#   -Ip  : l'adresse IP publique de ta machine Oracle
+#   -Ip  : l'adresse IP publique de votre machine Oracle
 #   -Cle : la clé privée SSH téléchargée à la création de la machine
 #
 # Ce que fait le script :
 #   1. prépare le .env de production (adresse HTTPS publique, mode production)
 #   2. emballe le code (sans node_modules ni secrets inutiles)
-#   3. l'envoie au serveur avec ta base de données (la première fois seulement)
+#   3. l'envoie au serveur avec votre base de données (la première fois seulement)
 #   4. lance deploy/installer.sh sur le serveur
 # =====================================================================
 param(
@@ -34,7 +34,7 @@ Write-Host "`n==> Adresse publique d'Awé : $url" -ForegroundColor Green
 icacls $Cle /inheritance:r /grant:r "$($env:USERNAME):R" | Out-Null
 $ssh = @("-i", $Cle, "-o", "StrictHostKeyChecking=accept-new")
 
-# 1. .env de production : on reprend ton .env et on remplace ce qui change en ligne.
+# 1. .env de production : on reprend votre .env et on remplace ce qui change en ligne.
 Write-Host "==> 1/4 Préparation du .env de production"
 $aRemplacer = '^\s*(NODE_ENV|PUBLIC_URL|GOOGLE_REDIRECT_URI|DATABASE_URL|STORAGE_DIR|DOMAINE|PORT|BOT_MODE)\s*='
 $lignes = @(Get-Content (Join-Path $racine ".env") | Where-Object { $_ -notmatch $aRemplacer })
@@ -84,5 +84,5 @@ ssh @ssh $cible $commandes
 if ($LASTEXITCODE -ne 0) { throw "L'installation a échoué : copie les messages ci-dessus à Claude." }
 
 Write-Host "`nTerminé. Dernière étape (une seule fois) : ajoute cette adresse dans Google Cloud," -ForegroundColor Green
-Write-Host "Clients OAuth > ton client > URI de redirection autorisés :" -ForegroundColor Green
+Write-Host "Clients OAuth > votre client > URI de redirection autorisés :" -ForegroundColor Green
 Write-Host "   $url/api/gmail/callback`n" -ForegroundColor Yellow

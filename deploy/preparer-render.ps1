@@ -1,23 +1,23 @@
 ﻿# =====================================================================
 # Prépare les variables d'Awé pour Render (hébergement gratuit, sans carte).
-# À lancer depuis le dossier du projet, sur ton PC Windows :
+# À lancer depuis le dossier du projet, sous Windows :
 #
 #   powershell -ExecutionPolicy Bypass -File deploy\preparer-render.ps1
 #
-# Le script te demande l'adresse de ta base Neon (bouton « Connect » sur neon.tech).
-# Colle-la quand il la demande : elle ne s'affiche pas et ne reste pas dans l'historique
+# Le script demande l'adresse de votre base Neon (bouton « Connect » sur neon.tech).
+# Collez-la quand il la demande : elle ne s'affiche pas et ne reste pas dans l'historique
 # du terminal (contrairement à une adresse tapée dans la commande elle-même).
 #
-# Le script reprend ton .env, remplace ce qui change en ligne et écrit
-# le fichier .env.render (jamais publié sur GitHub). Tu ouvres ce fichier,
-# tu copies tout, et tu le colles dans Render (« Add from .env »).
+# Le script reprend votre .env, remplace ce qui change en ligne et écrit
+# le fichier .env.render (jamais publié sur GitHub). Il suffit ensuite d'ouvrir
+# ce fichier, de tout copier et de le coller dans Render (« Add from .env »).
 # =====================================================================
 param(
   [string]$BaseDeDonnees
 )
 $ErrorActionPreference = "Stop"
 if (-not $BaseDeDonnees) {
-  $saisie = Read-Host "Colle l'adresse Neon (postgresql://...) puis Entrée" -AsSecureString
+  $saisie = Read-Host "Collez l'adresse Neon (postgresql://...) puis appuyez sur Entrée" -AsSecureString
   $BaseDeDonnees = [Net.NetworkCredential]::new("", $saisie).Password
 }
 $racine = Split-Path $PSScriptRoot -Parent
@@ -28,7 +28,7 @@ if (-not ($BaseDeDonnees.Trim() -match '^postgres(ql)?://')) {
   throw "L'adresse de la base doit commencer par postgresql:// (copie-la depuis Neon, bouton Connect)."
 }
 
-# Ce qui est différent en ligne (le reste de ton .env est repris tel quel).
+# Ce qui est différent en ligne (le reste de votre .env est repris tel quel).
 $aRemplacer = '^\s*(NODE_ENV|PORT|PUBLIC_URL|GOOGLE_REDIRECT_URI|DATABASE_URL|STORAGE_DIR|BOT_MODE|TELEGRAM_WEBHOOK_SECRET|DEMO|DOMAINE)\s*='
 $lignes = @(Get-Content $source -Encoding UTF8 | Where-Object { $_ -match '^\s*[A-Z_]+\s*=\s*\S' -and $_ -notmatch $aRemplacer })
 
@@ -49,5 +49,5 @@ $lignes += @(
 [IO.File]::WriteAllLines($sortie, $lignes, (New-Object Text.UTF8Encoding($false)))
 
 Write-Host "`nFichier prêt : $sortie" -ForegroundColor Green
-Write-Host "Ouvre-le (notepad .env.render), copie TOUT, puis colle-le dans Render : Environment > Add from .env."
-Write-Host "Ne l'envoie à personne : il contient tes clés. Il n'est pas publié sur GitHub."
+Write-Host "Ouvrez-le (notepad .env.render), copiez tout son contenu, puis collez-le dans Render : Environment > Add from .env."
+Write-Host "Ne le transmettez à personne : il contient vos clés. Il n'est pas publié sur GitHub."
