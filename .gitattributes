@@ -1,0 +1,4 @@
+# Les scripts Linux doivent garder des fins de ligne Unix (LF), même depuis Windows.
+*.sh text eol=lf
+Caddyfile text eol=lf
+Dockerfile text eol=lf

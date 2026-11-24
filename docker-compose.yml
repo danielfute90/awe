@@ -1,0 +1,35 @@
+# =====================================================================
+# Lancement sur le serveur : `sudo docker compose up -d --build`
+#   - awe   : le serveur d'Awé (bot Telegram, API, interface web)
+#   - caddy : la porte d'entrée HTTPS (certificat gratuit Let's Encrypt,
+#             obtenu et renouvelé automatiquement)
+# =====================================================================
+services:
+  awe:
+    build: .
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./data:/app/data # base de données (SQLite)
+      - ./storage:/app/storage # PDF
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAINE: ${DOMAINE} # ex. 132-145-10-20.sslip.io (lu dans .env)
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - awe
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

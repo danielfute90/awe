@@ -1,0 +1,5 @@
+# Caddy : HTTPS automatique pour l'adresse publique d'Awé, puis tout est transmis à Awé.
+# (Le temps réel SSE passe sans problème : Caddy transmet les événements au fil de l'eau.)
+{$DOMAINE} {
+	reverse_proxy awe:3000
+}

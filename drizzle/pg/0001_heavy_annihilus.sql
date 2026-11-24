@@ -1,0 +1,1 @@
+ALTER TABLE "messages" ADD COLUMN "hors_memoire" boolean DEFAULT false NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE `messages` ADD `hors_memoire` integer DEFAULT false NOT NULL;
