@@ -110,13 +110,14 @@ function Mise() {
         aria-current={actif ? "page" : undefined}
         className={
           mobile
-            ? `flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-medium ${actif ? "text-accent" : "text-gris/70"}`
+            ? `flex min-w-0 flex-1 flex-col items-center py-3 ${actif ? "text-accent" : "text-gris/70"}`
             : `flex items-center gap-3 rounded-full px-4 py-2.5 font-medium transition ${actif ? "bg-accent text-white" : "text-gris hover:bg-encre/5"}`
         }
       >
-        <span className={mobile && actif ? "rounded-full bg-accent-clair px-3 py-0.5" : ""}>{p.icone}</span>
-        {/* Sur mobile (7 onglets), seul l'onglet actif affiche son nom ; les autres le gardent pour les lecteurs d'écran. */}
-        <span className={mobile && !actif ? "sr-only" : "truncate"}>{p.nom}</span>
+        <span className={mobile && actif ? "rounded-full bg-accent-clair px-3.5 py-1.5" : ""}>{p.icone}</span>
+        {/* Sur mobile (7 onglets), on n'affiche que les icônes : la pastille bleue montre l'onglet actif.
+            Le nom reste lu par les lecteurs d'écran (sr-only = invisible à l'œil, pas à l'oreille). */}
+        <span className={mobile ? "sr-only" : "truncate"}>{p.nom}</span>
       </a>
     );
   };
