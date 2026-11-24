@@ -79,7 +79,7 @@ Ta base de données (conversation, liste, accès Gmail) est copiée sur le serve
 | Se connecter au serveur | `ssh -i <clé> ubuntu@<ip>` |
 | Voir les messages d'Awé | sur le serveur : `cd awe && sudo docker compose logs -f awe` |
 | Redémarrer Awé | sur le serveur : `cd awe && sudo docker compose restart awe` |
-| Sauvegarder la base sur ton PC | `scp -i <clé> ubuntu@<ip>:~/awe/data/djo.db .\sauvegarde-djo.db` |
+| Sauvegarder la base sur ton PC | `scp -i <clé> ubuntu@<ip>:~/awe/data/awe.db .\sauvegarde-awe.db` |
 
 **Important** : ne relance plus `pnpm dev` sur ton PC avec le même `TELEGRAM_BOT_TOKEN` pendant que
 le serveur tourne (les deux se disputeraient les messages). Pour développer en local, utilise

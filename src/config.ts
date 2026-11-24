@@ -39,7 +39,7 @@ const schema = z.object({
   TELEGRAM_WEBHOOK_SECRET: z.string().optional(),
 
   // --- Base de données et fichiers ---
-  DATABASE_URL: z.string().default("file:./data/djo.db"),
+  DATABASE_URL: z.string().default("file:./data/awe.db"),
   STORAGE_DIR: z.string().default("storage"), // dossier des PDF (un sous-dossier par utilisateur)
 
   // --- Claude / Anthropic (le cerveau, phase 2) ---

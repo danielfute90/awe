@@ -17,7 +17,7 @@ Compte environ 30 minutes.
 
 1. Crée un compte sur https://github.com/signup.
 2. Crée un dépôt vide : https://github.com/new → nom `awe` → **Public** → ne coche rien → *Create repository*.
-3. Ferme et rouvre VS Code (pour qu'il trouve git), puis dans le terminal, dans `C:\Users\HP\djo` (remplace `TON_PSEUDO`) :
+3. Ferme et rouvre VS Code (pour qu'il trouve git), puis dans le terminal, dans `C:\Users\HP\awe` (remplace `TON_PSEUDO`) :
 
 ```powershell
 git remote add origin https://github.com/TON_PSEUDO/awe.git
@@ -38,9 +38,10 @@ Pour les mises à jour plus tard : `git add . ; git commit -m "maj" ; git push` 
 4. Dans le terminal :
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File deploy\preparer-render.ps1 -BaseDeDonnees "COLLE_ICI_L_ADRESSE_NEON"
+powershell -ExecutionPolicy Bypass -File deploy\preparer-render.ps1
 ```
 
+Le script te demande l'adresse : colle-la (elle reste invisible), puis Entrée.
 Le fichier `.env.render` est créé (tes clés + les réglages en ligne). Il reste sur ton PC.
 
 ## 3. Render : faire tourner Awé

@@ -45,7 +45,7 @@ $lignes += @(
   "PORT=3000",
   "PUBLIC_URL=$url",
   "GOOGLE_REDIRECT_URI=$url/api/gmail/callback",
-  "DATABASE_URL=file:./data/djo.db",
+  "DATABASE_URL=file:./data/awe.db",
   "BOT_MODE=polling",
   "DOMAINE=$domaine"
 )
@@ -62,7 +62,7 @@ if ($LASTEXITCODE -ne 0) { throw "Échec de l'emballage du code" }
 # 3. Envoi.
 Write-Host "==> 3/4 Envoi vers $cible"
 $fichiers = @($archive, (Join-Path $travail "env.production"))
-$base = Join-Path $racine "data\djo.db"
+$base = Join-Path $racine "data\awe.db"
 if (Test-Path $base) { $fichiers += $base }
 scp @ssh @fichiers "${cible}:~/"
 if ($LASTEXITCODE -ne 0) { throw "Envoi impossible : vérifie l'IP, la clé et que le port 22 est ouvert." }
@@ -75,7 +75,7 @@ $commandes = @(
   "mkdir -p ~/awe",
   "tar -xzf ~/awe.tgz -C ~/awe",
   "mv ~/env.production ~/awe/.env",
-  "if [ -f ~/djo.db ]; then if [ ! -f ~/awe/data/djo.db ]; then mkdir -p ~/awe/data && mv ~/djo.db ~/awe/data/djo.db && echo 'Base de données copiée.'; else rm ~/djo.db; fi; fi",
+  "if [ -f ~/awe.db ]; then if [ ! -f ~/awe/data/awe.db ]; then mkdir -p ~/awe/data && mv ~/awe.db ~/awe/data/awe.db && echo 'Base de données copiée.'; else rm ~/awe.db; fi; fi",
   "rm -f ~/awe.tgz",
   "sed -i 's/\r$//' ~/awe/deploy/installer.sh",
   "bash ~/awe/deploy/installer.sh"

@@ -2,18 +2,24 @@
 # Prépare les variables d'Awé pour Render (hébergement gratuit, sans carte).
 # À lancer depuis le dossier du projet, sur ton PC Windows :
 #
-#   powershell -ExecutionPolicy Bypass -File deploy\preparer-render.ps1 -BaseDeDonnees "postgresql://..."
+#   powershell -ExecutionPolicy Bypass -File deploy\preparer-render.ps1
 #
-#   -BaseDeDonnees : l'adresse de ta base Neon (bouton « Connect » sur neon.tech)
+# Le script te demande l'adresse de ta base Neon (bouton « Connect » sur neon.tech).
+# Colle-la quand il la demande : elle ne s'affiche pas et ne reste pas dans l'historique
+# du terminal (contrairement à une adresse tapée dans la commande elle-même).
 #
 # Le script reprend ton .env, remplace ce qui change en ligne et écrit
 # le fichier .env.render (jamais publié sur GitHub). Tu ouvres ce fichier,
 # tu copies tout, et tu le colles dans Render (« Add from .env »).
 # =====================================================================
 param(
-  [Parameter(Mandatory = $true)][string]$BaseDeDonnees
+  [string]$BaseDeDonnees
 )
 $ErrorActionPreference = "Stop"
+if (-not $BaseDeDonnees) {
+  $saisie = Read-Host "Colle l'adresse Neon (postgresql://...) puis Entrée" -AsSecureString
+  $BaseDeDonnees = [Net.NetworkCredential]::new("", $saisie).Password
+}
 $racine = Split-Path $PSScriptRoot -Parent
 $source = Join-Path $racine ".env"
 $sortie = Join-Path $racine ".env.render"

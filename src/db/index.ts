@@ -2,7 +2,7 @@
 // Connexion à la base de données.
 //
 // - DATABASE_URL commence par "postgres" → Postgres (production)
-// - sinon → fichier SQLite (développement), ex. "file:./data/djo.db"
+// - sinon → fichier SQLite (développement), ex. "file:./data/awe.db"
 //
 // Le reste du code importe "db" et les tables depuis CE fichier uniquement,
 // sans savoir quelle base est utilisée. Règle à respecter : n'utiliser que

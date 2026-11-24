@@ -111,6 +111,6 @@ deploy/              mise en ligne (Docker, HTTPS automatique, scripts)
 test/                tests automatiques (node:test)
 ```
 
-Base de données : SQLite par défaut (`DATABASE_URL=file:./data/djo.db`), Postgres possible
+Base de données : SQLite par défaut (`DATABASE_URL=file:./data/awe.db`), Postgres possible
 (`DATABASE_URL=postgres://...`). Le schéma existe en deux versions jumelles
 (`src/db/schema.sqlite.ts` et `src/db/schema.pg.ts`) ; les migrations s'appliquent au démarrage.
