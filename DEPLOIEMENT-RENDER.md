@@ -17,15 +17,14 @@ Compte environ 30 minutes.
 
 1. Crée un compte sur https://github.com/signup.
 2. Crée un dépôt vide : https://github.com/new → nom `awe` → **Public** → ne coche rien → *Create repository*.
-3. Dans le terminal, dans `C:\Users\HP\djo` (remplace `TON_PSEUDO`) :
+3. Ferme et rouvre VS Code (pour qu'il trouve git), puis dans le terminal, dans `C:\Users\HP\djo` (remplace `TON_PSEUDO`) :
 
 ```powershell
-git init -b main
-git add .
-git commit -m "Awé"
 git remote add origin https://github.com/TON_PSEUDO/awe.git
 git push -u origin main
 ```
+
+(Le dépôt et le premier enregistrement du code sont déjà prêts.)
 
 Une fenêtre GitHub s'ouvre pour te connecter la première fois. Ton `.env`, ta base et tes PDF ne sont **pas** envoyés (`.gitignore`).
 
