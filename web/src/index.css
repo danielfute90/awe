@@ -1,24 +1,23 @@
 /* =====================================================================
    Identité visuelle d'Awé (Tailwind CSS v4).
    Les couleurs ci-dessous deviennent des classes : bg-fond, bg-carte,
-   text-encre, bg-bleu, bg-rouge, bg-jaune, bg-vert, text-gris...
+   text-encre, bg-accent, bg-accent-clair, text-accent-fonce, text-gris...
 
-   Accent : QUATRE couleurs fluo en fragments (pas une seule) :
-   chaque page a la sienne, la mascotte est en quatre quarts, et une
-   bande multicolore souligne les titres.
-   Texte blanc sur bleu et rouge ; texte noir sur jaune et vert.
+   Palette volontairement sobre : UNE couleur d'accent (bleu vif) sur
+   bleu nuit. Le rouge "danger" est réservé aux actions irréversibles
+   et aux erreurs (c'est un signal, pas une décoration).
    ===================================================================== */
 @import "tailwindcss";
 
 @theme {
-  --color-fond: #f1f1ec; /* fond blanc cassé */
-  --color-carte: #fbfbf7; /* cartes */
-  --color-encre: #141414; /* texte noir */
-  --color-gris: #4a4a45; /* texte secondaire */
-  --color-bleu: #2e7dff; /* bleu électrique */
-  --color-rouge: #ff2d6f; /* rose-rouge néon */
-  --color-jaune: #ffe014; /* jaune fluo */
-  --color-vert: #1fe27a; /* vert néon */
+  --color-fond: #f5f7fa; /* fond gris très clair */
+  --color-carte: #ffffff; /* cartes */
+  --color-encre: #0f172a; /* bleu nuit : texte, titres */
+  --color-gris: #475569; /* texte secondaire */
+  --color-accent: #2563eb; /* bleu vif : boutons, onglet actif, mascotte */
+  --color-accent-clair: #dbeafe; /* fonds légers (pastilles, étiquettes) */
+  --color-accent-fonce: #1e40af; /* texte posé sur accent-clair */
+  --color-danger: #dc2626; /* actions irréversibles et erreurs uniquement */
   --font-titre: "Poppins", system-ui, sans-serif;
   --font-texte: "Inter", system-ui, sans-serif;
   --radius-carte: 26px;
@@ -35,8 +34,8 @@ body {
 /* Ombre douce des cartes */
 .ombre-douce {
   box-shadow:
-    0 1px 2px rgb(20 20 20 / 0.04),
-    0 8px 24px rgb(20 20 20 / 0.06);
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 8px 24px rgb(15 23 42 / 0.06);
 }
 
 /* ---------------------------------------------------------------------

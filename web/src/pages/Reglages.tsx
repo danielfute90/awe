@@ -93,7 +93,7 @@ export function PageReglages() {
         <Etiquette>Budget du jour</Etiquette>
         <div className="h-3 overflow-hidden rounded-full bg-encre/8">
           <div
-            className={`h-full rounded-full ${moi.budget.utilises / moi.budget.limite >= 0.8 ? "bg-rouge" : "bg-vert"}`}
+            className={`h-full rounded-full ${moi.budget.utilises / moi.budget.limite >= 0.8 ? "bg-danger" : "bg-accent"}`}
             style={{ width: `${Math.min(100, (moi.budget.utilises / moi.budget.limite) * 100)}%` }}
           />
         </div>

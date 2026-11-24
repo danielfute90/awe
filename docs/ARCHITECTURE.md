@@ -210,14 +210,14 @@ Un assistant qui lit tes emails et peut en envoyer doit être très prudent. Les
 Le site est une **application React** dans le dossier [web/](../web/). Il a **son propre** `package.json`.
 
 - **React** : on décrit l'écran par *composants* (un bouton, une carte, une page). Quand les données changent, React met l'écran à jour tout seul.
-- **Tailwind** : on écrit le style directement dans les composants avec des classes (`rounded-full px-4 bg-encre`). Les couleurs fluo sont définies une seule fois dans [web/src/index.css](../web/src/index.css).
+- **Tailwind** : on écrit le style directement dans les composants avec des classes (`rounded-full px-4 bg-accent`). La palette (bleu nuit + bleu vif, et un rouge réservé aux actions dangereuses) est définie **une seule fois** dans [web/src/index.css](../web/src/index.css) : changer une couleur là-bas la change partout.
 - **Vite** : construit le site (`pnpm web:build`) en quelques fichiers optimisés dans `web/dist`, que le serveur distribue.
 
 Comment le site parle au serveur : [web/src/api.ts](../web/src/api.ts) appelle des adresses comme `/api/messages`. Le serveur les traite dans [src/api/web.ts](../src/api/web.ts).
 
 **Le direct** : quand tu écris sur Telegram, le message apparaît aussi sur le site sans recharger. C'est grâce à **SSE** (*Server-Sent Events*) : le site garde une connexion ouverte (`/api/events`) et le serveur y pousse les nouveautés ([services/events.ts](../src/services/events.ts)).
 
-> ❓ Ouvre [web/src/App.tsx](../web/src/App.tsx) : quelle couleur a la page « Documents » ?
+> ❓ Ouvre [web/src/index.css](../web/src/index.css) : quel est le code de la couleur `accent` ? Et pourquoi le rouge s'appelle-t-il `danger` et pas `rouge` ?
 
 ---
 
@@ -277,7 +277,7 @@ modifier le code → pnpm test → git add . → git commit -m "..." → git pus
 ## Pour pratiquer (du plus facile au plus dur)
 
 1. **Changer une phrase.** Dans [src/agent/prompt.ts](../src/agent/prompt.ts), ajoute une règle de ton choix (ex. « Termine tes réponses par un émoji »). Teste en local avec `pnpm chat`.
-2. **Changer une couleur.** Dans [web/src/App.tsx](../web/src/App.tsx), donne une autre couleur à une page. Lance `pnpm web:build` et recharge le site.
+2. **Changer une couleur.** Dans [web/src/index.css](../web/src/index.css), essaie une autre valeur pour `--color-accent`. Lance `pnpm web:build` et recharge le site : tout le site change d'un coup.
 3. **Envoyer ta modification en ligne** avec le cycle du chapitre 9, puis vérifie sur Render qu'un nouveau déploiement démarre.
 4. **Lire un test.** Ouvre [test/phase1.test.ts](../test/phase1.test.ts) : chaque `test("...")` décrit un comportement attendu. Casse volontairement une ligne de code, lance `pnpm test`, regarde le test échouer, puis répare.
 5. **Créer un outil** (avec mon aide) : par exemple `vider_liste` qui coche tous les articles d'un coup.

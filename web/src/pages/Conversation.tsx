@@ -7,7 +7,7 @@ import { api, type Demande, type Message } from "../api";
 import { CarteDemande } from "../composants/CarteDemande";
 import { IconeEnvoyer, IconeSource } from "../composants/icones";
 import { LIBELLES_ETAT, Mascotte } from "../composants/Mascotte";
-import { BandeFluo, Bouton, formaterDate } from "../composants/ui";
+import { Bouton, formaterDate, Soulignement } from "../composants/ui";
 import { useAwe, useDonnees } from "../contexte";
 
 /** Fusionne des messages sans doublon, triés par numéro. */
@@ -74,10 +74,10 @@ export function PageConversation() {
       <div className="mb-6 flex items-center gap-4">
         <Mascotte etat={etat} taille={64} />
         <div>
-          <h1 className="inline-block -rotate-[1.5deg] rounded-2xl bg-encre px-4 py-1.5 font-titre text-2xl font-extrabold text-white">
+          <h1 className="font-titre text-2xl font-extrabold tracking-tight text-encre">
             Salut {moi.prenom}
           </h1>
-          <BandeFluo className="ml-2 mt-2 -rotate-[1.5deg]" />
+          <Soulignement className="mt-2" />
           <p className="mt-2 text-sm text-gris">Awé : {LIBELLES_ETAT[etat]}</p>
         </div>
       </div>

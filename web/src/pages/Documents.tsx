@@ -18,7 +18,7 @@ export function PageDocuments() {
         <ul className="divide-y divide-encre/8">
           {documents?.map((d) => (
             <li key={d.id} className="flex flex-wrap items-center gap-3 py-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-rouge font-titre text-xs font-extrabold text-white">PDF</span>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-clair font-titre text-xs font-extrabold text-accent-fonce">PDF</span>
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium">{d.titre}</p>
                 <p className="text-xs text-gris">{formaterDate(d.createdAt, moi.fuseau)}</p>

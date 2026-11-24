@@ -28,7 +28,7 @@ export function PageConnexions() {
         <Carte>
           <div className="flex items-center justify-between gap-3">
             <Etiquette>Gmail</Etiquette>
-            <Pastille ton={gmail.email ? "vert" : "gris"}>{gmail.email ? "Connecté" : "Non connecté"}</Pastille>
+            <Pastille ton={gmail.email ? "accent" : "gris"}>{gmail.email ? "Connecté" : "Non connecté"}</Pastille>
           </div>
           {gmail.email ? (
             <>
@@ -50,7 +50,7 @@ export function PageConnexions() {
           ) : gmail.configure ? (
             <>
               <p className="text-gris">Connecte ta boîte pour qu'Awé puisse lire, résumer et envoyer tes emails.</p>
-              <a href="/api/gmail/connect" className="mt-4 inline-block rounded-full bg-bleu px-5 py-2.5 font-semibold text-white hover:brightness-110">
+              <a href="/api/gmail/connect" className="mt-4 inline-block rounded-full bg-accent px-5 py-2.5 font-semibold text-white hover:bg-accent-fonce">
                 Connecter Gmail
               </a>
             </>
@@ -62,7 +62,7 @@ export function PageConnexions() {
         <Carte>
           <div className="flex items-center justify-between gap-3">
             <Etiquette>Telegram</Etiquette>
-            <Pastille ton={moi.telegram ? "vert" : "gris"}>{moi.telegram ? "Relié" : "Non relié"}</Pastille>
+            <Pastille ton={moi.telegram ? "accent" : "gris"}>{moi.telegram ? "Relié" : "Non relié"}</Pastille>
           </div>
           <p className="text-gris">
             {moi.telegram

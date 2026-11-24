@@ -15,7 +15,6 @@ import {
   IconeReglages,
   IconeValidation,
 } from "./composants/icones";
-import { FOND, type Couleur } from "./composants/ui";
 import { FournisseurAwe, useAwe } from "./contexte";
 import { PageConnexion } from "./pages/Connexion";
 import { PageConnexions } from "./pages/Connexions";
@@ -25,18 +24,18 @@ import { PageDocuments } from "./pages/Documents";
 import { PageReglages } from "./pages/Reglages";
 import { PageValidations } from "./pages/Validations";
 
-// Les pages : adresse, nom, icône, couleur fluo (chaque page a la sienne), contenu.
-type Page = { chemin: string; nom: string; icone: ReactNode; couleur: Couleur; page: () => ReactNode };
+// Les pages : adresse, nom, icône, contenu.
+type Page = { chemin: string; nom: string; icone: ReactNode; page: () => ReactNode };
 const PAGES: Page[] = [
-  { chemin: "/", nom: "Conversation", icone: <IconeConversation />, couleur: "bleu", page: () => <PageConversation /> },
-  { chemin: "/validations", nom: "Validations", icone: <IconeValidation />, couleur: "rouge", page: () => <PageValidations /> },
-  { chemin: "/courses", nom: "Courses", icone: <IconeCourses />, couleur: "jaune", page: () => <PageCourses /> },
-  { chemin: "/documents", nom: "Documents", icone: <IconeDocuments />, couleur: "vert", page: () => <PageDocuments /> },
-  { chemin: "/connexions", nom: "Connexions", icone: <IconeConnexions />, couleur: "bleu", page: () => <PageConnexions /> },
-  { chemin: "/reglages", nom: "Réglages", icone: <IconeReglages />, couleur: "rouge", page: () => <PageReglages /> },
+  { chemin: "/", nom: "Conversation", icone: <IconeConversation />, page: () => <PageConversation /> },
+  { chemin: "/validations", nom: "Validations", icone: <IconeValidation />, page: () => <PageValidations /> },
+  { chemin: "/courses", nom: "Courses", icone: <IconeCourses />, page: () => <PageCourses /> },
+  { chemin: "/documents", nom: "Documents", icone: <IconeDocuments />, page: () => <PageDocuments /> },
+  { chemin: "/connexions", nom: "Connexions", icone: <IconeConnexions />, page: () => <PageConnexions /> },
+  { chemin: "/reglages", nom: "Réglages", icone: <IconeReglages />, page: () => <PageReglages /> },
 ];
 // La page Admin n'apparaît que pour l'admin (et le serveur refuse les autres de toute façon).
-const PAGE_ADMIN: Page = { chemin: "/admin", nom: "Admin", icone: <IconeAdmin />, couleur: "jaune", page: () => <PageAdmin /> };
+const PAGE_ADMIN: Page = { chemin: "/admin", nom: "Admin", icone: <IconeAdmin />, page: () => <PageAdmin /> };
 
 /** Navigation sans rechargement : on change l'adresse et on prévient l'appli. */
 export function naviguer(chemin: string) {
@@ -111,11 +110,11 @@ function Mise() {
         aria-current={actif ? "page" : undefined}
         className={
           mobile
-            ? `flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-medium ${actif ? "text-encre" : "text-gris/70"}`
-            : `flex items-center gap-3 rounded-full px-4 py-2.5 font-medium transition ${actif ? FOND[p.couleur] : "text-gris hover:bg-encre/5"}`
+            ? `flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-medium ${actif ? "text-accent" : "text-gris/70"}`
+            : `flex items-center gap-3 rounded-full px-4 py-2.5 font-medium transition ${actif ? "bg-accent text-white" : "text-gris hover:bg-encre/5"}`
         }
       >
-        <span className={mobile && actif ? `rounded-full px-3 py-0.5 ${FOND[p.couleur]}` : ""}>{p.icone}</span>
+        <span className={mobile && actif ? "rounded-full bg-accent-clair px-3 py-0.5" : ""}>{p.icone}</span>
         {/* Sur mobile (7 onglets), seul l'onglet actif affiche son nom ; les autres le gardent pour les lecteurs d'écran. */}
         <span className={mobile && !actif ? "sr-only" : "truncate"}>{p.nom}</span>
       </a>

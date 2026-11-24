@@ -82,7 +82,7 @@ export function PageAdmin() {
                 <span className="flex-1 font-medium">
                   n°{u.id} · {u.prenom}
                 </span>
-                <Pastille ton={u.role === "admin" ? "noir" : u.role === "membre" ? "bleu" : "gris"}>{u.role}</Pastille>
+                <Pastille ton={u.role === "admin" ? "noir" : u.role === "membre" ? "clair" : "gris"}>{u.role}</Pastille>
                 {!u.telegram && <Pastille ton="gris">sans Telegram</Pastille>}
                 {u.role !== "admin" && (
                   <Bouton variante="danger" className="!px-4 !py-1.5 text-sm" onClick={() => retirer(u)}>
@@ -112,7 +112,7 @@ export function PageAdmin() {
                 {/* Barre du budget : en rouge au-delà de 80 % */}
                 <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-encre/8">
                   <div
-                    className={`h-full rounded-full ${j.tokens / limite >= 0.8 ? "bg-rouge" : "bg-vert"}`}
+                    className={`h-full rounded-full ${j.tokens / limite >= 0.8 ? "bg-danger" : "bg-accent"}`}
                     style={{ width: `${Math.min(100, (j.tokens / limite) * 100)}%` }}
                   />
                 </div>
@@ -156,7 +156,7 @@ export function PageAdmin() {
                   <span className="text-sm font-medium">{formaterDate(t.debut, moi.fuseau)}</span>
                   <span className="flex items-center gap-2 text-xs text-gris">
                     {t.etapes.length} étape{t.etapes.length > 1 ? "s" : ""} · {t.tokens} tokens · {t.cout.toFixed(4)} $
-                    {t.erreur && <Pastille ton="rouge">erreur</Pastille>}
+                    {t.erreur && <Pastille ton="danger">erreur</Pastille>}
                   </span>
                 </button>
                 {ouverte === t.tacheId && (

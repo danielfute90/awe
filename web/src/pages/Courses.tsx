@@ -71,7 +71,7 @@ export function PageCourses() {
               />
               <span className={`flex-1 ${a.fait ? "text-gris line-through" : ""}`}>
                 {a.nom}
-                {a.quantite && <span className="ml-2 rounded-full bg-jaune px-2 py-0.5 text-xs font-semibold text-encre">{a.quantite}</span>}
+                {a.quantite && <span className="ml-2 rounded-full bg-accent-clair px-2 py-0.5 text-xs font-semibold text-accent-fonce">{a.quantite}</span>}
               </span>
               <button
                 onClick={() => agir(() => api(`/api/shopping/${a.id}`, { methode: "DELETE" }))}

@@ -2,7 +2,7 @@
 // En mode démo, un bouton permet d'entrer directement.
 import { useEffect, useState } from "react";
 import { Mascotte } from "../composants/Mascotte";
-import { BandeFluo, Carte } from "../composants/ui";
+import { Carte, Soulignement } from "../composants/ui";
 
 export function PageConnexion() {
   const lienInvalide = new URLSearchParams(location.search).get("lien") === "invalide";
@@ -21,10 +21,10 @@ export function PageConnexion() {
         <div className="flex justify-center">
           <Mascotte etat="dispo" taille={96} />
         </div>
-        <h1 className="mx-auto mt-6 inline-block -rotate-[1.5deg] rounded-2xl bg-encre px-5 py-2 font-titre text-3xl font-extrabold text-white">
+        <h1 className="mt-6 font-titre text-3xl font-extrabold tracking-tight text-encre">
           Awé
         </h1>
-        <BandeFluo className="mx-auto mt-2 -rotate-[1.5deg]" />
+        <Soulignement className="mx-auto mt-2" />
 
         {demo ? (
           <>
@@ -34,7 +34,7 @@ export function PageConnexion() {
             </p>
             <a
               href="/auth/demo"
-              className="mt-6 inline-block rounded-full bg-bleu px-6 py-3 font-semibold text-white hover:brightness-110"
+              className="mt-6 inline-block rounded-full bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-fonce"
             >
               Entrer dans la démo
             </a>
@@ -47,7 +47,7 @@ export function PageConnexion() {
               </p>
             )}
             <p className="mt-6 text-lg">
-              Ouvre Telegram et envoie <b className="rounded-lg bg-jaune px-2 py-0.5">/web</b> à Awé.
+              Ouvre Telegram et envoie <b className="rounded-lg bg-accent-clair px-2 py-0.5 text-accent-fonce">/web</b> à Awé.
             </p>
             <p className="mt-2 text-gris">Il te répond avec un lien de connexion. Pas de mot de passe à retenir.</p>
             <p className="mt-6 text-sm text-gris">

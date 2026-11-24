@@ -37,13 +37,13 @@ export function CarteDemande({ demande, apres }: { demande: Demande; apres?: () 
   };
 
   return (
-    <article className="rounded-[26px] border-2 border-encre bg-carte p-5">
+    <article className="rounded-[26px] border-2 border-accent bg-carte p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-titre font-bold italic">Awé attend ta validation · n°{demande.id}</p>
-        <Pastille ton={reste < 60000 ? "rouge" : "jaune"}>{reste > 0 ? `expire dans ${minutes}:${secondes}` : "expirée"}</Pastille>
+        <Pastille ton={reste < 60000 ? "danger" : "clair"}>{reste > 0 ? `expire dans ${minutes}:${secondes}` : "expirée"}</Pastille>
       </div>
       {demande.avertissement && (
-        <p className="mt-3 rounded-2xl bg-amber-100 p-3 text-sm font-medium text-amber-900">{demande.avertissement}</p>
+        <p className="mt-3 rounded-2xl bg-danger/10 p-3 text-sm font-medium text-danger">{demande.avertissement}</p>
       )}
       <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-fond p-4 font-texte text-sm">{demande.apercu}</pre>
       <div className="mt-4 flex flex-wrap gap-2">

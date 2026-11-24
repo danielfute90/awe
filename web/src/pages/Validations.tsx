@@ -4,10 +4,10 @@ import { CarteDemande } from "../composants/CarteDemande";
 import { Carte, Etiquette, formaterDate, Pastille, Titre, Vide } from "../composants/ui";
 import { useAwe, useDonnees } from "../contexte";
 
-const STATUTS: Record<string, { texte: string; ton: "vert" | "gris" | "rouge" }> = {
-  validee: { texte: "Validée", ton: "vert" },
+const STATUTS: Record<string, { texte: string; ton: "accent" | "gris" | "danger" }> = {
+  validee: { texte: "Validée", ton: "accent" },
   annulee: { texte: "Annulée", ton: "gris" },
-  expiree: { texte: "Expirée", ton: "rouge" },
+  expiree: { texte: "Expirée", ton: "gris" },
 };
 
 export function PageValidations() {
